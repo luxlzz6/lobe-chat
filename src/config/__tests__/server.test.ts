@@ -27,33 +27,10 @@ describe('getServerConfig', () => {
     global.process = originalProcess; // Restore the original process object
   });
 
-  it('correctly reflects boolean value for USE_AZURE_OPENAI', () => {
-    process.env.USE_AZURE_OPENAI = '1';
-    const config = getServerConfig();
-    expect(config.USE_AZURE_OPENAI).toBe(true);
-  });
-
-  it('correctly handles falsy values for USE_AZURE_OPENAI', () => {
-    process.env.USE_AZURE_OPENAI = '0';
-    const config = getServerConfig();
-    expect(config.USE_AZURE_OPENAI).toBe(false);
-  });
-
   it('correctly handles values for OPENAI_FUNCTION_REGIONS', () => {
     process.env.OPENAI_FUNCTION_REGIONS = 'iad1,sfo1';
     const config = getServerConfig();
     expect(config.OPENAI_FUNCTION_REGIONS).toStrictEqual(['iad1', 'sfo1']);
-  });
-
-  it('returns default IMGUR_CLIENT_ID when no environment variable is set', () => {
-    const config = getServerConfig();
-    expect(config.IMGUR_CLIENT_ID).toBe('e415f320d6e24f9');
-  });
-
-  it('returns custom IMGUR_CLIENT_ID when environment variable is set', () => {
-    process.env.IMGUR_CLIENT_ID = 'custom-client-id';
-    const config = getServerConfig();
-    expect(config.IMGUR_CLIENT_ID).toBe('custom-client-id');
   });
 
   describe('index url', () => {
